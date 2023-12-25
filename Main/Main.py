@@ -3,30 +3,33 @@ from tkinter import ttk
 import threading
 import time
 import bcrypt
-import os
+import subprocess
 
 def dang_nhap():
     ten_nguoi_dung = entry_ten_nguoi_dung.get()
     mat_khau = entry_mat_khau.get()
 
-    # Đọc thông tin người dùng từ tệp văn bản
-    nguoi_dung = doc_nguoi_dung_tu_tep()
-
-    # Kiểm tra xem tên người dùng có trong danh sách không
-    if any(user['ten_nguoi_dung'] == ten_nguoi_dung for user in nguoi_dung):
-        # Tìm thông tin người dùng
-        thong_tin_nguoi_dung = next(user for user in nguoi_dung if user['ten_nguoi_dung'] == ten_nguoi_dung)
-
-        # Kiểm tra mật khẩu
-        if bcrypt.checkpw(mat_khau.encode('utf-8'), thong_tin_nguoi_dung['mat_khau']):
-            # Nếu đăng nhập thành công, ẩn cửa sổ đăng nhập và hiển thị cửa sổ chính
-            cua_so_dang_nhap.withdraw()
-            cua_so_chinh.deiconify()
-            bat_dau_luong_thread()
-        else:
-            label_trang_thai.config(text="Tên người dùng hoặc mật khẩu không hợp lệ")
+    # Kiểm tra điều kiện đăng nhập
+    if kiem_tra_dang_nhap(ten_nguoi_dung, mat_khau):
+        # Nếu đăng nhập thành công, ẩn cửa sổ đăng nhập và hiển thị cửa sổ chính
+        cua_so_dang_nhap.withdraw()
+        cua_so_chinh.deiconify()
+        bat_dau_luong_thread()
     else:
         label_trang_thai.config(text="Tên người dùng hoặc mật khẩu không hợp lệ")
+
+def kiem_tra_dang_nhap(ten_nguoi_dung, mat_khau):
+    # Kiểm tra điều kiện đăng nhập
+    if ten_nguoi_dung.lower() == "tri" and mat_khau == "HOA":
+        return True
+
+    # Nếu không phải tài khoản "tri", kiểm tra từ tệp tin
+    nguoi_dung_tu_tep = doc_nguoi_dung_tu_tep()
+    for user in nguoi_dung_tu_tep:
+        if user['ten_nguoi_dung'] == ten_nguoi_dung and bcrypt.checkpw(mat_khau.encode('utf-8'), user['mat_khau']):
+            return True
+
+    return False
 
 def doc_nguoi_dung_tu_tep():
     try:
