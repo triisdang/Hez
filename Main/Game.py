@@ -1,2 +1,0 @@
-zoz = "d"
-print(zoz)
