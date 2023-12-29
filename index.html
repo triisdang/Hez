@@ -3,41 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Web Cơ Bản</title>
+    <title>Document</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+        .overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
         }
-        header {
-            text-align: center;
-            padding: 10px;
-            background-color: #f2f2f2;
-        }
-        main {
+
+        .popup {
+            position: absolute;
+            display: none;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            width: 50%;
             padding: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #f2f2f2;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            z-index: 3;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Chào mừng đến với trang web của chúng tôi!</h1>
-    </header>
+<div class="overlay"></div>
+<div class="popup">
+    <h2>Food Hack Conditions</h2>
+    <p>Some random food hack conditions</p>
+    <button class="close-btn">Close</button>
+</div>
 
-    <main>
-        <p>Đây là một trang web HTML cơ bản.</p>
-        <p>Bạn có thể thêm nội dung của mình vào đây.</p>
-    </main>
+<script>
+    document.querySelector('.overlay').addEventListener('click', function() {
+        this.style.display = 'none';
+        document.querySelector('.popup').style.display = 'none';
+    });
 
-    <footer>
-        <p>© 2023 Trang Web Cơ Bản</p>
-    </footer>
+    document.querySelector('.close-btn').addEventListener('click', function() {
+        document.querySelector('.overlay').style.display = 'none';
+        document.querySelector('.popup').style.display = 'none';
+    });
+
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.querySelector('.overlay').style.display = 'block';
+            document.querySelector('.popup').style.display = 'block';
+        }, 3000); // 3 seconds after page load
+    });
+</script>
 
 </body>
 </html>
