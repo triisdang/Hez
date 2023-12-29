@@ -56,7 +56,7 @@ def luong_thread_chuc_nang():
 
 def mo_file_python_moi():
     # Thực hiện các thao tác cần thiết khi muốn mở file Python mới
-    subprocess.run(["python", "ungdungmoi.py"])
+    subprocess.run(["python", "ControlPanel.py"])
 
 # Tạo cửa sổ đăng nhập
 cua_so_dang_nhap = tk.Tk()
